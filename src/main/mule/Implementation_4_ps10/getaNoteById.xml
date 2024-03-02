@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="getaNoteById10Sub_Flow" doc:id="6f33181d-5486-4a4e-b67f-518b05e800e5" >
+		<set-variable value="#[attributes.uriParams.noteId]" doc:name="Set Variable" doc:id="462b3e63-af30-4c02-b74f-a40220762b5f" variableName="noteID"/>
+		<db:select doc:name="Select" doc:id="bddd84f9-5be3-4b43-bd69-5baf10c1f09d" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from note where id= :noteid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"noteid": attributes.uriParams.'noteId'
+}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="5f2f1a95-49e0-4eaf-a9fc-465e60c86658" >
+			<when expression="#[sizeOf(payload) &gt;0]">
+				<ee:transform doc:name="Transform Message" doc:id="235fabc5-35d7-4e0d-8c98-8e930ba47644">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<set-payload value='"The is no record to show with that noteID entered. Choose a noteID that has record in the Database"' doc:name="Set Payload" doc:id="0eb13229-a4ea-4581-8287-bd2ae5495062" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+</mule>

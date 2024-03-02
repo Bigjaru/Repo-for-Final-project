@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="putnote10Sub_Flow" doc:id="3b491407-1eb2-4695-83c0-e77bb8d37b88" >
+		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="e9462b17-9788-4200-a6fc-74a2cd211962" variableName="payl"/>
+		<set-variable value="#[attributes.uriParams.noteId]" doc:name="Set Variable" doc:id="0ac53dd8-348f-459f-b012-b3a04f11d4a6" variableName="ID"/>
+		<db:select doc:name="Select" doc:id="31108887-cee6-4606-b615-228034a428b3" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from note where id= :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"id": attributes.uriParams.noteId
+}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="9ff242a8-7617-435e-99aa-786b24616f37" >
+			<when expression="#[sizeOf(payload) &gt; 0]">
+				<db:update doc:name="Update" doc:id="a83fbd36-37ca-4f1d-b64b-48fea58a709c" config-ref="Database_Config">
+			<db:sql><![CDATA[update note set title= :title, content= :content, updatedAt= :updatedAt where id= :id
+]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+   "id": vars.ID,
+   "title": vars.payl.title,
+    "content" : vars.payl.content,
+    "updatedAt": now()
+    }]]]></db:input-parameters>
+		</db:update>
+				<set-payload value='"Note updated for the noteID that has record in the Database"' doc:name="Set Payload" doc:id="f8c3776e-c216-4485-8db4-eb7525cf7b1e" />
+			</when>
+			<otherwise >
+				<db:insert doc:name="Insert" doc:id="1a746ca2-6929-4455-84bd-84a050c64465" config-ref="Database_Config">
+					<db:sql ><![CDATA[insert into note (id, title, content, createdAt, updatedAt) values (:id, :title, :content, :createdAt, :updatedAt)]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	"id": vars.ID,
+"title": vars.payl.title,
+"content": vars.payl.content,
+"createdAt": now(),
+"updatedAt": now()
+}]]]></db:input-parameters>
+				</db:insert>
+				<set-payload value='"note inserted for the noteID that was not in the database before"' doc:name="Set Payload" doc:id="faea04c6-56c6-406a-a399-52bc028ca730" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+</mule>

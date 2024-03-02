@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_e5ceac5c_fd64_487a_9da1_445ec66c3d31_Input_Payload = Array<{  createdAt: String,   id: Number,   title: String,   content: String,   updatedAt: String,   _?: Any}>
+

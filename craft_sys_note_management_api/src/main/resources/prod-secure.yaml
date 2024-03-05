@@ -1,0 +1,26 @@
+http:
+  host: "![sn0/bkKC48z/NTUjMAQSqg==]"
+  port: "![3c1Nn8ROWc0=]"
+  pathR: "![N8dzchULFBY=]"
+  pathC: "![0eZLOtvrj7V96GhnVerO0w==]"
+  pathZ: "![SCtVB7A8rok7aiRanj75oA==]"
+
+
+httpReq:
+  host: "![Wr+Y9+k40dD/eRb0tTAWaCnxGz0hnUnM]"
+  port: "![FnQZO59bruU=]"
+  base path: "![WxymqPsUgRWQMlQaZ4810zZNQKLZuQHL]"
+  key: "![P9LZHdQ+8emyBTLAdXAM+ZJ29ZZPVY60]"
+
+api:
+  id: "![f3HriQNmtzqypHL8xN7P4A==]"
+
+db:
+  host: "![sn0/bkKC48z/NTUjMAQSqg==]"
+  port: "![GsCqbJEvqpI=]"
+  uname: "![kGUrMSl4q+g=]"
+  pass: "![/frsHfxCeNdmAm0MMGd/Sg==]"
+  dbName: "![5iPVaI1CrEvxS+tZZ21Qbw==]"
+
+
+

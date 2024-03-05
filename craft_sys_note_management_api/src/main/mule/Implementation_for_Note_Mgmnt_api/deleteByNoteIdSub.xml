@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="deleteByNoteId4NMSubSub_Flow" doc:id="2a0658f4-2c66-46f0-8949-e3713bffe8c3" >
+		<set-variable value="#[attributes.uriParams.noteId]" doc:name="Set Variable" doc:id="0bcabf96-5c3c-44a3-ac62-10c9ec515f4e" variableName="noteID"/>
+		<db:select doc:name="Select" doc:id="c900a4e4-48c1-4de5-ab7a-b530cd263e71" config-ref="Database_Config">
+			<reconnect count="5" />
+			<db:sql ><![CDATA[select * from notes_group_a where id= :noteid]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"noteid": attributes.uriParams.'noteId'
+}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="076e9093-66cf-46da-9cd1-cd02dd41a245" >
+			<when expression="#[sizeOf(payload) &gt; 0]">
+				<db:delete doc:name="Delete" doc:id="1b8f257b-8e22-4a1e-b43b-a21de71405e6" config-ref="Database_Config">
+			<reconnect count="5" />
+					<db:sql><![CDATA[delete from notes_group_a where id = :id]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	id: vars.noteID
+}]]]></db:input-parameters>
+		</db:delete>
+				<set-payload value='"a Note is Deleted"' doc:name="Set Payload" doc:id="6e26919a-d97d-477a-84dc-d55e8d51eb56" />
+			</when>
+			<otherwise >
+				<set-payload value='"There is no record to delete with that noteId. Choose a noteId that has record in the Database"' doc:name="Set Payload" doc:id="85708fb3-f9e3-4a55-bcd1-7114bc6923c7" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+</mule>

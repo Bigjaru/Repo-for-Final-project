@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+    <http:listener-config name="craft_sys_final_project_api-httpListenerConfig">
+        <http:listener-connection host="${secure::http.host}" port="${secure::http.port}" />
+    </http:listener-config>
+    <apikit:config name="craft_sys_final_project_api-config" api="resource::52b105ac-ef01-4c3a-8542-a3b24c8b5eb4:craft_sys_final_project_api:1.0.5:raml:zip:craft_sys_final_project_api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <configuration doc:name="Configuration" doc:id="f596449e-50bd-4be8-bb49-fcf56af9afe0" defaultErrorHandler-ref="Global-ErrorError_Handler" />
+    <db:config name="Database_Config" doc:name="Database Config" doc:id="67584bd6-a8d8-44a6-934b-dfefa634efd0">
+        <db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.uname}" password="${secure::db.pass}" database="${secure::db.dbName}" />
+    </db:config>
+    <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="c9d98c69-921b-4a23-87a1-1e40a1ebc518" basePath="${secure::httpReq.base path}">
+        <http:request-connection protocol="HTTPS" host="${secure::httpReq.host}" port="${secure::httpReq.port}" />
+    </http:request-config>
+	<api-gateway:autodiscovery apiId="${secure::api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="581bdd38-ed2b-4e4f-8b1b-876b20bb3364" flowRef="craft_sys_final_project_api-main" />
+	<configuration-properties doc:name="Configuration properties" doc:id="343bad8c-0c27-4f14-b16c-851fe7d6951c" file="${env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="34cd1581-0d98-4852-8655-44021097d37c" name="env" value="dev-secure" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="26e76df0-c104-431b-9a12-084ec47ed37f" file="dev-secure.yaml" key='${encr.Key}' >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+</mule>

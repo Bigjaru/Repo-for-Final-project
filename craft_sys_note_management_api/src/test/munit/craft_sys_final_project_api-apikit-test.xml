@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd ">
+    <munit:config name="craft_sys_final_project_api-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="localhost" port="8081" />
+    </http:request-config>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_400_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_401_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_403_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_404_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes\(noteId):craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [get:\notes\(noteId):craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_500_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-201-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-201-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(201)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 201" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_201_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_400_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_401_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_403_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_404_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\notes:application\json:craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [post:\notes:application\json:craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="post:\notes:application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_notes_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_500_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-200-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_200_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_400_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_401_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_403_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_404_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [put:\notes\(noteId):application\json:craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="put:\notes\(noteId):application\json:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_notes_{noteid}_application_json.json')]" />
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/put_500_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_400_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_401_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_403_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_404_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\notes:craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [get:\notes:craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\notes:craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/notes">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_500_notes_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-200-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_200_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_400_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_401_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_403_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_404_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\notes\(noteId):craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [delete:\notes\(noteId):craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="delete:\notes\(noteId):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="noteId" value="#['null']" doc:name="noteId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/notes/$(vars.noteId)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/delete_500_notes_{noteid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-400-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_400_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-401-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-401-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_401_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-403-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-403-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="403" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(403)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 403" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_403_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-404-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_404_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\project1\(zip):craft_sys_final_project_api-config-500-application\json-FlowTest" description="Verifying functionality of [get:\project1\(zip):craft_sys_final_project_api-config-500-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="craft_sys_final_project_api-main" />
+            <munit:enable-flow-source value="get:\project1\(zip):craft_sys_final_project_api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="zip" value="#['null']" doc:name="zip" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/project1/$(vars.zip)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_500_project1_{zip}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+</mule>

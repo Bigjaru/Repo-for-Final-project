@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="postNoteSub4NMSub_Flow" doc:id="e5ceac5c-fd64-487a-9da1-445ec66c3d31" >
+		<db:bulk-insert doc:name="Bulk insert" doc:id="3367bc6e-3a3c-40a5-852d-390e28ab4b67" config-ref="Database_Config">
+			<reconnect count="5" />
+			<db:bulk-input-parameters ><![CDATA[#[payload map (value, index) -> 
+{
+	"title": value.title,
+	"content": value.content,
+	"createdAt": now(),
+	"updatedAt": now()
+	
+}]]]></db:bulk-input-parameters>
+			<db:sql ><![CDATA[insert into notes_group_a (title, content, createdAt, updatedAt) values (:title, :content, :createdAt, :updatedAt)]]></db:sql>
+		</db:bulk-insert>
+		<set-payload value='"a Note or Notes are posted"' doc:name="Set Payload" doc:id="49d5b40a-a011-4c48-9c42-5fe0507c2e88" />
+	</sub-flow>
+</mule>

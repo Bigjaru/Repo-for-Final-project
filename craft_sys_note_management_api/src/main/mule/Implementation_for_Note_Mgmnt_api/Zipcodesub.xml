@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="Zipcode4NMSub_Flow" doc:id="d30f8345-6006-4f36-bcb1-c6d0e869980b" >
+		<set-variable value="#[attributes.uriParams.'zip']" doc:name="Set Variable" doc:id="fbe20088-177d-422c-b565-2cb5b600b096" variableName="zipc"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9161742d-7990-48aa-b04a-60266794874e" message="#[vars.zipc]"/>
+		<http:request method="GET" doc:name="Request" doc:id="d6f3f631-9b71-48b6-8e00-bdb9590c6202" config-ref="HTTP_Request_configuration" path="/QuickGetZipCodeDetails/{Zipcode}">
+			<http:uri-params ><![CDATA[#[output application/json
+---
+{
+	"Zipcode" : vars.zipc
+}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"Key" : "34P8J1F4ZDGZMWLDF2UZ"
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+</mule>

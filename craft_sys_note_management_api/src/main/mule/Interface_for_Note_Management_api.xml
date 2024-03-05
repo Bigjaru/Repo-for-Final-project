@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="craft_sys_final_project_api-main">
+        <http:listener config-ref="craft_sys_final_project_api-httpListenerConfig" path="${secure::http.pathR}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="craft_sys_final_project_api-config" />
+        <error-handler ref="Global-ErrorError_Handler" />
+    </flow>
+    <flow name="craft_sys_final_project_api-console">
+        <http:listener config-ref="craft_sys_final_project_api-httpListenerConfig" path="${secure::http.pathC}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="craft_sys_final_project_api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\notes\(noteId):application\json:craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="cf7bb174-09c9-4336-8ea1-403ce253bac8" name="putnote4NMSub_Flow" />
+    </flow>
+    <flow name="delete:\notes\(noteId):craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="9152d948-9876-4369-9950-9254b3205fa6" name="deleteByNoteId4NMSubSub_Flow" />
+    </flow>
+    <flow name="get:\notes:craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="09b33537-2191-43a3-bb94-0f00c03853a9" name="getNotes4NMSubSub_Flow" />
+    </flow>
+    <flow name="get:\project1\(zip):craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="16700820-35f7-4d00-8524-b5df1a67248c" name="Zipcode4NMSub_Flow" />
+    </flow>
+    <flow name="get:\notes\(noteId):craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="5e8328fb-3716-4904-92ba-50d9e726c254" name="getaNoteById4NMSub_Flow" />
+    </flow>
+    <flow name="post:\notes:application\json:craft_sys_final_project_api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="d7b62650-e7d7-4f97-b4ce-cc9b7e34fa52" name="postNoteSub4NMSub_Flow" />
+    </flow>
+</mule>

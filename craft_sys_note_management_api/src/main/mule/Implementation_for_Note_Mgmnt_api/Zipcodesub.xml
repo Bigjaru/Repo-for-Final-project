@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			<http:query-params ><![CDATA[#[output application/java
 ---
 {
-	"Key" : "34P8J1F4ZDGZMWLDF2UZ"
+	"Key" : "${extapi.key}"
 }]]]></http:query-params>
 		</http:request>
 	</sub-flow>
